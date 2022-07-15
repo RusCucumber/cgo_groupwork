@@ -96,9 +96,9 @@ def imae(gt,img,ratio):
 def main():
    processed = preprocess.get_transform(augment=False)
 
-   gt_fold = ''
-   left_fold = ''
-   lidar2_raw =''
+   gt_fold = '/DeepLiDAR/depth_selection/val_selection_cropped/groundtruth_depth'
+   left_fold = '/DeepLiDAR/depth_selection/val_selection_cropped/image'
+   lidar2_raw ='/DeepLiDAR/depth_selection/val_selection_cropped/velodyne_raw'
 
    gt = [img for img in os.listdir(gt_fold)]
    image = [img for img in os.listdir(left_fold)]
