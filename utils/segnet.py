@@ -27,7 +27,7 @@ class SegNetEncoder(nn.Module):
             nn.ReLU(),
             nn.Conv2d(128, 128, kernel_size=3, padding=1),
             nn.BatchNorm2d(128, momentum=bn_momentum),
-            nn.ReLU(),
+            nn.ReLU()
         )
 
         self.conv3 = nn.Sequential(
@@ -39,7 +39,7 @@ class SegNetEncoder(nn.Module):
             nn.ReLU(),
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
             nn.BatchNorm2d(256, momentum=bn_momentum),
-            nn.ReLU(),
+            nn.ReLU()
         )
 
         self.conv4 = nn.Sequential(
@@ -51,7 +51,7 @@ class SegNetEncoder(nn.Module):
             nn.ReLU(),
             nn.Conv2d(512, 512, kernel_size=3, padding=1),
             nn.BatchNorm2d(512, momentum=bn_momentum),
-            nn.ReLU(),
+            nn.ReLU()
         )
 
         self.conv5 = nn.Sequential(
@@ -63,7 +63,7 @@ class SegNetEncoder(nn.Module):
             nn.ReLU(),
             nn.Conv2d(512, 512, kernel_size=3, padding=1),
             nn.BatchNorm2d(512, momentum=bn_momentum),
-            nn.ReLU(),
+            nn.ReLU()
         )
 
     def forward(self, input: torch.Tensor):
@@ -91,7 +91,7 @@ class SegNetEncoder(nn.Module):
 
 
 class SegNetDecoder(nn.Module):
-    def __init__(self, n_channels=512, bn_momentum=0.1):
+    def __init__(self, n_out=3, bn_momentum=0.1):
         """
         n_channels: number of channels (default=512)
         bn_momentum: momentum of batch normalization (default=0.1)
@@ -101,7 +101,7 @@ class SegNetDecoder(nn.Module):
         self.up_pooling = nn.MaxUnpool2d(2, stride=2)
 
         self.deconv1 = nn.Sequential(
-            nn.Conv2d(n_channels, 512, kernel_size=3, padding=1),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1),
             nn.BatchNorm2d(512, momentum=bn_momentum),
             nn.ReLU(),
             nn.Conv2d(512, 512, kernel_size=3, padding=1),
@@ -149,7 +149,7 @@ class SegNetDecoder(nn.Module):
             nn.Conv2d(64, 64, kernel_size=3, padding=1),
             nn.BatchNorm2d(64, momentum=bn_momentum),
             nn.ReLU(),
-            nn.Conv2d(64, 3, kernel_size=3, padding=1),
+            nn.Conv2d(64, n_out, kernel_size=3, padding=1),
         )
     
     def forward(
@@ -177,7 +177,7 @@ class SegNetDecoder(nn.Module):
 
 
 class SegNet(nn.Module):
-    def __init__(self, n_channels=3, bn_momentum=0.1):
+    def __init__(self, n_channels=3, n_out=3, bn_momentum=0.1):
         """
         n_channels: number of channels (default=3)
         bn_momentum: momentum of batch normalization (default=0.1)
@@ -185,7 +185,7 @@ class SegNet(nn.Module):
         super().__init__()
 
         self.encoder = SegNetEncoder(n_channels, bn_momentum)
-        self.decoder = SegNetDecoder(512, bn_momentum)
+        self.decoder = SegNetDecoder(n_out, bn_momentum)
         
 
     def forward(self, input: torch.Tensor):
