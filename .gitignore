@@ -1,4 +1,5 @@
 *.pt
+results/segmentation/ray_results/
 dataset/
 depth_completion_KITTI.tar
 DeepLiDAR/depth_selection/test_depth_completion_anonymous/image/0000000000.png
